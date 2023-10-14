@@ -2,6 +2,9 @@ const express = require('express')
 const app = express()
 const port = 3000
 
+// 呼叫靜態檔案json
+app.use(express.static('public'))
+
 // 首頁重新導入restaurants
 app.get('/', (req, res) => {
   res.redirect('/restaurants')
