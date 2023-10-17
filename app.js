@@ -19,7 +19,16 @@ app.get('/', (req, res) => {
 
 // restaurants載入清單
 app.get('/restaurants', (req, res) => {
-  res.render('index', { restaurants: restaurants })
+  const keyword = req.query.keyword?.trim() //=右邊的keyword為html檔中input的name
+  const matchedRestaurants = keyword ? restaurants.filter((restaurant) =>
+    Object.values(restaurant).some((property) => {
+      if (typeof property === 'string') {
+        return property.toLowerCase().includes(keyword.toLowerCase())
+      }
+      return false
+    })
+  ) : restaurants
+  res.render('index', { restaurants: matchedRestaurants, keyword })
 })
 
 app.get('/restaurant/:id', (req, res) => {
